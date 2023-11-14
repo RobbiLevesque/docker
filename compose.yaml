@@ -1,23 +1,22 @@
 version: '3'
 services:
-  influencetechfrontoper:
-    image: robbineux/influencetechlocal
+  influencetechfront:
+    image: robbineux/influencetech
     depends_on:
       - mongodb
       - redis
       - rabbitmq
-      - influencetechoperation
+      - influencetechagendaback
     restart: always
     networks:
       - mynetwork
     dns:
       - 172.19.0.1
       - 172.16.0.1
-      - 10.90.192.18
-      - 10.90.192.16
+      - 10.32.32.16
 
     ports:
-      - 8445:3445
+      - 8300:3000
     env_file: ./.env
     environment:
       - DB_HOST=mongodb
@@ -26,10 +25,10 @@ services:
       - DB_NAME=$MONGODB_DATABASE
       - DB_PORT=$MONGODB_DOCKER_PORT
     stdin_open: true
-    command: node ./index.js --front --cluster 1 --prod
+    command: npm run startDockerFront
     tty: true
-  influencetechoperation:
-    image: robbineux/influencetechlocal
+  influencetechagendaback:
+    image: robbineux/influencetech
     depends_on:
       - mongodb
       - rabbitmq
@@ -38,13 +37,12 @@ services:
     dns:
       - 172.19.0.1
       - 172.16.0.1
-      - 10.90.192.18
-      - 10.90.192.16
+      - 10.32.32.16
 
     networks:
       - mynetwork
     ports:
-      - 8444:3444
+      - 8333:3333
     env_file: ./.env
     environment:
       - DB_HOST=mongodb
@@ -53,25 +51,18 @@ services:
       - DB_NAME=$MONGODB_DATABASE
       - DB_PORT=$MONGODB_DOCKER_PORT
     stdin_open: true
-    command: node ./index.js --operation --cluster 1 --prod
+    command: npm run startDockerAB
     tty: true
-  influencetechveba:
-    image: robbineux/influencetechlocal
+  influencetechsearch:
+    image: robbineux/influencetech
     depends_on:
       - mongodb
-      - rabbitmq
-      - influencetechoperation
+      - redis
     restart: always
-    dns:
-      - 172.19.0.1
-      - 172.16.0.1
-      - 10.90.192.18
-      - 10.90.192.16
-
     networks:
       - mynetwork
     ports:
-      - 8555:3555
+      - 8111:3111
     env_file: ./.env
     environment:
       - DB_HOST=mongodb
@@ -80,7 +71,7 @@ services:
       - DB_NAME=$MONGODB_DATABASE
       - DB_PORT=$MONGODB_DOCKER_PORT
     stdin_open: true
-    command: node ./index.js --veba --cluster 1 --prod
+    command: npm run startDockerSearch
     tty: true
   mongodb:
     image: mongo:6.0.2
@@ -97,17 +88,31 @@ services:
       - mongodb:/data/db
   redis:
     image: redis:7.2-rc1
+    restart: always
     networks:
       - mynetwork
     ports:
       - 6379:6379
   rabbitmq:
     image: rabbitmq:3.12.0-management
+    restart: always
     networks:
       - mynetwork
     ports:
       - 5672:5672
       - 15672:15672
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    restart: always
+    depends_on:
+      - influencetechfront
+    image: nginx:latest
+    networks:
+      - mynetwork
+    ports:
+      - 80:80
+      - 443:443
 volumes:
  mongodb:
    
