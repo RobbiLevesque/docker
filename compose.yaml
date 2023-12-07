@@ -6,6 +6,7 @@ services:
       - mongodb
       - redis
       - rabbitmq
+      - typesense
       - influencetechagendaback
     restart: always
     networks:
@@ -86,6 +87,18 @@ services:
       - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
     volumes:
       - mongodb:/data/db
+  typesense:
+    image: typesense/typesense:0.25.1
+    restart: on-failure
+    environment:
+      - TYPESENSE_DATA_DIR=/data
+      - TYPESENSE_API_KEY=fknq28l3iscqbty809ccb
+    networks:
+      - mynetwork
+    ports:
+      - 8108:8108
+    volumes:
+      - ./typesense-data:/data
   redis:
     image: redis:7.2-rc1
     restart: always
