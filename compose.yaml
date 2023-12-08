@@ -5,8 +5,8 @@ services:
     depends_on:
       - mongodb
       - redis
-      - rabbitmq
       - typesense
+      - rabbitmq
       - influencetechagendaback
     restart: always
     networks:
@@ -92,13 +92,13 @@ services:
     restart: on-failure
     environment:
       - TYPESENSE_DATA_DIR=/data
-      - TYPESENSE_API_KEY=fknq28l3iscqbty809ccb
+      - TYPESENSE_API_KEY=$TYPESENSE_API_KEY
     networks:
       - mynetwork
     ports:
       - 8108:8108
     volumes:
-      - ./typesense-data:/data
+      - typesenseData:/data
   redis:
     image: redis:7.2-rc1
     restart: always
@@ -128,6 +128,7 @@ services:
       - 443:443
 volumes:
  mongodb:
+ typesenseData:
    
 networks:
     mynetwork:
