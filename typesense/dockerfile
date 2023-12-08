@@ -1,0 +1,8 @@
+FROM typesense/typesense:0.25.2.rc12
+#RUN rm /etc/nginx/conf.d/default.conf
+#COPY default.conf /etc/nginx/conf.d/default.conf
+
+RUN mkdir -p /models
+COPY ./all-MiniLM-L12-v2/* /models/all-MiniLM-L12-v2/
+COPY ./multilingual-e5-large/* /models/multilingual-e5-large/
+#CMD ["nginx", "-g", "daemon off;"]

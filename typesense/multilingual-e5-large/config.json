@@ -1,0 +1,9 @@
+{
+  "model_md5": "507240d227c1071b8a8e5b4f296bccf1",
+  "vocab_file_name": "sentencepiece.bpe.model",
+  "vocab_md5": "bf25eb5120ad92ef5c7d8596b5dc4046",
+  "data_md5": "c6c72edbdef762ae9d15fd1681415f41",
+  "model_type": "xlm_roberta",
+  "indexing_prefix": "passage:",
+  "query_prefix": "query:"
+}
