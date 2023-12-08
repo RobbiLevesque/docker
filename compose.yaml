@@ -97,8 +97,6 @@ services:
       - mynetwork
     ports:
       - 8108:8108
-    volumes:
-      - ./:/data
   redis:
     image: redis:7.2-rc1
     restart: always
