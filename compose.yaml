@@ -39,7 +39,6 @@ services:
       - 172.19.0.1
       - 172.16.0.1
       - 10.32.32.16
-
     networks:
       - mynetwork
     ports:
@@ -98,7 +97,7 @@ services:
     ports:
       - 8108:8108
     volumes:
-      - typesenseData:/data
+      - ./:/data
   redis:
     image: redis:7.2-rc1
     restart: always
