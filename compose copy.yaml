@@ -20,7 +20,6 @@ services:
       - 8300:3000
     env_file: ./.env
     environment:
-      - TZ=America/Montreal
       - DB_HOST=mongodb
       - DB_USER=$MONGODB_USER
       - DB_PASSWORD=$MONGODB_PASSWORD
@@ -40,14 +39,12 @@ services:
       - 172.19.0.1
       - 172.16.0.1
       - 10.32.32.16
-
     networks:
       - mynetwork
     ports:
       - 8333:3333
     env_file: ./.env
     environment:
-      - TZ=America/Montreal
       - DB_HOST=mongodb
       - DB_USER=$MONGODB_USER
       - DB_PASSWORD=$MONGODB_PASSWORD
@@ -68,7 +65,6 @@ services:
       - 8111:3111
     env_file: ./.env
     environment:
-      - TZ=America/Montreal
       - DB_HOST=mongodb
       - DB_USER=$MONGODB_USER
       - DB_PASSWORD=$MONGODB_PASSWORD
@@ -82,7 +78,6 @@ services:
     restart: unless-stopped
     env_file: ./.env
     environment:
-      - TZ=America/Montreal
       - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
       - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
     networks:
@@ -92,16 +87,11 @@ services:
     volumes:
       - mongodb:/data/db
   typesense:
-    image: typesense/typesense:0.25.2.rc12
+    image: robbineux/typesenserobbi
     restart: on-failure
     environment:
-      - TZ=America/Montreal
       - TYPESENSE_DATA_DIR=/data
       - TYPESENSE_API_KEY=$TYPESENSE_API_KEY
-    dns:
-      - 172.19.0.1
-      - 172.16.0.1
-      - 10.32.32.16
     networks:
       - mynetwork
     ports:
@@ -111,8 +101,6 @@ services:
   redis:
     image: redis:7.2-rc1
     restart: always
-    environment:
-      - TZ=America/Montreal
     networks:
       - mynetwork
     ports:
@@ -120,8 +108,6 @@ services:
   rabbitmq:
     image: rabbitmq:3.12.0-management
     restart: always
-    environment:
-      - TZ=America/Montreal
     networks:
       - mynetwork
     ports:
@@ -134,8 +120,6 @@ services:
     depends_on:
       - influencetechfront
     image: nginx:latest
-    environment:
-      - TZ=America/Montreal
     networks:
       - mynetwork
     ports:
