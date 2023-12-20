@@ -96,18 +96,17 @@ services:
     restart: on-failure
     environment:
       - TZ=America/Montreal
-      - TYPESENSE_DATA_DIR=/data2
+      - TYPESENSE_DATA_DIR=/data
       - TYPESENSE_API_KEY=$TYPESENSE_API_KEY
     dns:
-      - 172.19.0.1
-      - 172.16.0.1
       - 10.32.32.16
+      - 10.32.32.18
     networks:
       - mynetwork
     ports:
       - 8108:8108
     volumes:
-      - typesenseData:/data2
+      - typesenseData:/data
   redis:
     image: redis:7.2-rc1
     restart: always
